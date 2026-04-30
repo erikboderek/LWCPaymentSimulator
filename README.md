@@ -1,6 +1,25 @@
-# posFeePayment
+# LWCPaymentSimulator
 
-A Salesforce Lightning Web Component package for in-person fee collection. Designed as a Screen Flow component, it presents a fee summary, accepts card or cash payment, and returns transaction details to the flow as output variables.
+This was the second LWC I ever vibe coded, and I've been busy reworking it to be more scalable and adhere to Salesforce design standards. 
+
+Basically it mocks up paying for something using a point of sale (POS) integration with either cash or credit card, and how we can capture information from the end user and use that elsewhere in the system. 
+
+I'm using it as a screen flow, but it can be used elsewhere. 
+
+Originally this LWC had vertical layout like POS solutions you see at restaurants, and it had some cool animations. I'd like to bring those back in a future release. 
+
+**Credit Card Payment**
+<img width="800" alt="pos1" src="https://github.com/user-attachments/assets/ccefb0a1-543e-43a3-92d2-e9050d9241ce" />
+
+
+**Cash Payment**
+<img width="800" alt="pos2" src="https://github.com/user-attachments/assets/72241153-e883-49b5-9cfb-0e5eb92f518c" />
+
+
+
+
+
+
 
 ---
 
@@ -24,6 +43,10 @@ loading → bill → [cash] → processing → receipt → thankyou
 | **processing** | An animated spinner plays for a configurable number of seconds (card) or instantly (cash). Simulates terminal processing time. |
 | **receipt** | Shows the full transaction record. The customer chooses how to receive their receipt: text, email, print, or skip (Done). |
 | **thankyou** | Confirmation screen. If `autoAdvance` is enabled the flow moves to the next screen automatically after 1.5 seconds. |
+
+An example of how I use it in context to the rest of a flow. 
+<img width="401" height="561" alt="image" src="https://github.com/user-attachments/assets/896fff38-0190-481d-a650-86612263b8c5" />
+
 
 ---
 
