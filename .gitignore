@@ -52,3 +52,14 @@ $RECYCLE.BIN/
 .claude/
 skills-lock.json
 scripts/
+
+# IDE and local tooling
+.vscode/
+.husky/
+config/
+package.json
+package-lock.json
+jest.config.js
+eslint.config.js
+.prettierrc
+.prettierignore
