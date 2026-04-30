@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata" fqn="paymentTerminal">
+    <apiVersion>60.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+
+        <targetConfig targets="lightning__FlowScreen">
+
+            <!-- ── Record context ── -->
+            <property name="recordId" type="String" label="Record ID"
+                role="inputOnly" required="true"
+                description="The ID of the record this payment is being collected for." />
+
+            <property name="objectApiName" type="String" label="Object API Name"
+                role="inputOnly" required="true"
+                description="The API name of the object the record belongs to (e.g. RegulatoryTrxnFee)." />
+
+            <!-- ── Receipt display ── -->
+            <property name="receiptHeading" type="String" label="Receipt Heading"
+                role="inputOnly" required="false" default="Invoice"
+                description="The large heading at the top of the receipt (e.g. Invoice, Payment Receipt)." />
+
+            <property name="receiptSubHeading" type="String" label="Receipt Sub-Heading"
+                role="inputOnly" required="false" default="Services Provided"
+                description="Smaller text shown below the heading (e.g. Services Provided, Fee Summary)." />
+
+            <!-- ── Fee line items ── -->
+            <property name="parentRecordNameField" type="String" label="Record Name Field"
+                role="inputOnly" required="false" default="Name"
+                description="The field on the parent record used as the receipt title (e.g. Name, CaseNumber)." />
+
+            <property name="feeItemsObjectApiName" type="String" label="Fee Items Object"
+                role="inputOnly" required="false" default="RegulatoryTrxnFeeItem"
+                description="The API name of the child object that holds individual fee line items." />
+
+            <property name="feeItemsParentField" type="String" label="Fee Items Parent Lookup Field"
+                role="inputOnly" required="false" default="RegulatoryTrxnFeeId"
+                description="The lookup field on the fee items object that points back to the parent record." />
+
+            <property name="feeItemsNameField" type="String" label="Fee Items Name Field"
+                role="inputOnly" required="false" default="Name"
+                description="The field used as the display name for each fee line item." />
+
+            <property name="feeItemsAmountField" type="String" label="Fee Items Amount Field"
+                role="inputOnly" required="false" default="FeeAmount"
+                description="The currency or number field that holds the dollar amount for each fee line item." />
+
+            <property name="feeItemsDescriptionField" type="String" label="Fee Items Description Field"
+                role="inputOnly" required="false" default="Comments"
+                description="An optional field shown as supplemental detail beneath each fee line item." />
+
+            <!-- ── Processing fee ── -->
+            <property name="processingFeeLabel" type="String" label="Processing Fee Label"
+                role="inputOnly" required="false" default="Processing Fee"
+                description="The label shown next to the processing fee line (e.g. Processing Fee, Service Charge)." />
+
+            <property name="processingFeeLanguage" type="String" label="Processing Fee Disclosure"
+                role="inputOnly" required="false"
+                default="A non-refundable service fee is charged per transaction, which goes toward costs of credit card processing, technology, and resources needed to serve you."
+                description="Disclosure text shown below the processing fee line. Leave blank to hide it." />
+
+            <property name="processingFeeAmount" type="String" label="Processing Fee Rate or Amount"
+                role="inputOnly" required="false" default="0.025"
+                description="Enter as a decimal for percentage (0.025 = 2.5%) or as a dollar amount for a fixed fee (2.50). Which mode is used depends on the 'Use Fixed Dollar Fee' setting." />
+
+            <property name="useFixedFee" type="Boolean" label="Use Fixed Dollar Processing Fee"
+                role="inputOnly" required="false" default="false"
+                description="When unchecked (default), the processing fee is calculated as a percentage of the subtotal. When checked, the value in 'Processing Fee Rate or Amount' is treated as a flat dollar amount." />
+
+            <!-- ── Behavior ── -->
+            <property name="processingDurationSeconds" type="Integer" label="Card Processing Animation Duration (seconds)"
+                role="inputOnly" required="false" default="5"
+                description="How many seconds the animated processing screen shows before transitioning to the receipt. Adjust to match the feel of your payment integration." />
+
+            <property name="autoAdvance" type="Boolean" label="Auto-Advance After Thank You"
+                role="inputOnly" required="false" default="false"
+                description="When checked, the flow automatically moves to the next screen 1.5 seconds after the Thank You screen appears, without requiring the user to click a button." />
+
+            <!-- ── Outputs ── -->
+            <property name="paymentComplete" type="Boolean" label="Payment Complete"
+                role="outputOnly"
+                description="Set to true once the customer finishes the receipt step (or skips it). Use this to gate downstream flow logic — only proceed when this is true." />
+
+            <property name="paymentMethod" type="String" label="Payment Method Used"
+                role="outputOnly"
+                description="The method the customer selected. Returns 'card' or 'cash'." />
+
+            <property name="receiptDelivery" type="String" label="Receipt Delivery Choice"
+                role="outputOnly"
+                description="How the customer chose to receive their receipt. Returns one of: 'text', 'email', 'print', or 'none' (skipped)." />
+
+            <property name="receiptPhoneNumber" type="String" label="Receipt Phone Number"
+                role="outputOnly"
+                description="The 10-digit phone number the customer entered on the Text screen (digits only, no formatting). Empty string if the customer did not choose text delivery. Pass this to a downstream SMS action." />
+
+            <property name="receiptEmailAddress" type="String" label="Receipt Email Address"
+                role="outputOnly"
+                description="The email address the customer entered on the Email screen. Empty string if the customer did not choose email delivery. Pass this to a downstream Send Email action." />
+
+            <property name="transactionTotal" type="String" label="Transaction Total"
+                role="outputOnly"
+                description="The final dollar amount charged as a formatted currency string (e.g. $112.75). Use this to display or store the payment amount in downstream flow elements." />
+
+            <property name="processedPayment" type="String" label="Payment Details (JSON)"
+                role="outputOnly"
+                description="A JSON string containing the full transaction record: line items, subtotal, processing fee, total, payment method, transaction ID, masked card number, cash tendered, change given, and receipt delivery choice. Parse this in a downstream flow or Apex action to store or display details." />
+
+        </targetConfig>
+
+    </targetConfigs>
+</LightningComponentBundle>

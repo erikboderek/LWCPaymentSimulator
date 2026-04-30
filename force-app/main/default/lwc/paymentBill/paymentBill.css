@@ -1,0 +1,59 @@
+@import 'c/billStyles';
+
+/* Bottom-align both columns so the button sits level with Total Due */
+.bill-layout {
+    align-items: flex-end;
+}
+
+.bill-right {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Center the Process Payment button under the tiles */
+.bill-right .landscape-footer {
+    display: flex;
+    justify-content: center;
+}
+
+.bill-right .landscape-footer lightning-button {
+    width: auto;
+    display: inline-block;
+}
+
+/* Subtitle + record name on one line */
+.receipt-meta-line {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+}
+
+/* Make the record name match the subtitle's uppercase/spaced style */
+.receipt-meta-line .bill-record-name {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: var(--bill-font-sm);
+    font-weight: 500;
+    margin-top: 0;
+}
+
+/* Tighter row spacing to prevent vertical scroll */
+.bill-details .summary-row {
+    margin-bottom: 6px;
+}
+
+.bill-details hr {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.bill-details .bill-item {
+    margin-bottom: 6px;
+}
+
+/* Make plain label spans match the .amount column font size */
+.row-label {
+    font-size: var(--bill-font-base);
+    font-weight: 500;
+    color: var(--bill-dark);
+}

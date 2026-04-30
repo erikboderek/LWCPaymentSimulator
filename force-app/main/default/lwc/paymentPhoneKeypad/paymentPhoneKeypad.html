@@ -1,0 +1,7 @@
+<template>
+    <div class={gridClass}>
+        <template for:each={buttons} for:item="key">
+            <button key={key} class={buttonClass} data-key={key} onclick={handleKeyPress}>{key}</button>
+        </template>
+    </div>
+</template>

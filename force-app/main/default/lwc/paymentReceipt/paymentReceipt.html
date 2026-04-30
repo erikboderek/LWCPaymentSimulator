@@ -1,0 +1,157 @@
+<template>
+
+    <!-- ── Receipt options sub-screen ── -->
+    <template lwc:if={isOptions}>
+        <div class="landscape-layout">
+
+            <!-- Left: receipt details -->
+            <div class="landscape-left receipt-details">
+                <header class="slds-var-m-bottom_small">
+                    <h1 class="bill-title">Payment Successful!</h1>
+                    <div class="receipt-meta-line">
+                        <h2 class="bill-subtitle">Transaction Receipt</h2>
+                        <span class="bill-record-name">{billData.recordName}</span>
+                    </div>
+                </header>
+                <hr />
+                <section class="slds-var-m-bottom_small">
+                    <article class="summary-row">
+                        <span class="item-name">Transaction ID:</span>
+                        <span class="item-amount">{receiptNumber}</span>
+                    </article>
+                    <article class="summary-row">
+                        <span class="item-name">Date:</span>
+                        <span class="item-amount">{transactionDate}</span>
+                    </article>
+                    <article class="summary-row">
+                        <span class="item-name">Payment Method:</span>
+                        <span class="item-amount">{capitalizedPaymentMethod}</span>
+                    </article>
+                    <template lwc:if={saltedCardNumber}>
+                        <article class="summary-row">
+                            <span class="item-name">Card Number:</span>
+                            <span class="item-amount">{saltedCardNumber}</span>
+                        </article>
+                    </template>
+                </section>
+                <hr />
+                <section>
+                    <template for:each={billData.items} for:item="item">
+                        <article key={item.name} class="bill-item">
+                            <div class="item-details">{item.name}</div>
+                            <div class="amount">{item.formattedAmount}</div>
+                        </article>
+                    </template>
+                </section>
+                <hr />
+                <section>
+                    <article class="summary-row">
+                        <span class="row-label">Subtotal:</span>
+                        <span class="amount">{billData.formattedSubtotal}</span>
+                    </article>
+                    <article class="summary-row">
+                        <span class="row-label">{processingFeeLabel}:</span>
+                        <span class="amount">{billData.formattedProcessingFee}</span>
+                    </article>
+                    <article class="summary-row receipt-total-row">
+                        <span class="row-label">Transaction Total:</span>
+                        <span class="amount">{formattedTotal}</span>
+                    </article>
+                    <template lwc:if={isCashPayment}>
+                        <article class="summary-row">
+                            <span class="row-label">Cash Tendered:</span>
+                            <span class="amount">{formattedCashTendered}</span>
+                        </article>
+                        <article class="summary-row">
+                            <span class="row-label">Change Given:</span>
+                            <span class="amount">{formattedChangeDue}</span>
+                        </article>
+                    </template>
+                </section>
+            </div>
+
+            <!-- Right: delivery tile options + Done -->
+            <div class="landscape-right landscape-right-receipt">
+                <h3 class="payment-title">Receipt Delivery</h3>
+                <div class="payment-options payment-options-landscape">
+                    <div class="payment-option" data-action="text" onclick={handleDeliveryOption}>
+                        <div class="payment-icon">📱</div>
+                        <div class="payment-label">Text</div>
+                    </div>
+                    <div class="payment-option" data-action="email" onclick={handleDeliveryOption}>
+                        <div class="payment-icon">📧</div>
+                        <div class="payment-label">Email</div>
+                    </div>
+                    <div class="payment-option" data-action="print" onclick={handleDeliveryOption}>
+                        <div class="payment-icon">🖨️</div>
+                        <div class="payment-label">Print</div>
+                    </div>
+                </div>
+                <footer class="landscape-footer done-footer">
+                    <lightning-button
+                        label="Done"
+                        variant="brand"
+                        data-action="skip"
+                        onclick={handleDeliveryOption}
+                        class="process-button-slds">
+                    </lightning-button>
+                </footer>
+            </div>
+
+        </div>
+    </template>
+
+    <!-- ── Text sub-screen ── -->
+    <template lwc:elseif={isText}>
+        <div class="landscape-layout">
+            <div class="landscape-left">
+                <header class="slds-var-m-bottom_medium">
+                    <h1 class="bill-title">Text Receipt</h1>
+                    <h2 class="bill-subtitle">Enter Mobile Number</h2>
+                </header>
+                <div class="phone-display slds-var-m-bottom_medium" data-is-empty={isPhoneNumberEmpty}>
+                    <span class="phone-input-text">{formattedPhoneNumber}</span>
+                </div>
+                <div class="slds-var-m-bottom_medium">
+                    <lightning-input
+                        type="checkbox"
+                        label="Sign up to receive future text messages from us?"
+                        checked={receiveTexts}
+                        onchange={handleTextSignupChange}>
+                    </lightning-input>
+                </div>
+                <footer class="slds-grid slds-grid_align-end slds-has-button-gap">
+                    <lightning-button label="Back" onclick={handleBack}></lightning-button>
+                    <lightning-button label="Send Receipt" variant="brand" disabled={isSendTextDisabled} onclick={handleSendText}></lightning-button>
+                </footer>
+            </div>
+            <div class="landscape-right keypad-column">
+                <c-payment-phone-keypad
+                    buttons={keypadButtons}
+                    compact
+                    onkeypress={handleKeypadKey}>
+                </c-payment-phone-keypad>
+            </div>
+        </div>
+    </template>
+
+    <!-- ── Email sub-screen ── -->
+    <template lwc:elseif={isEmail}>
+        <header class="slds-var-m-bottom_large">
+            <h1 class="bill-title">Email Receipt</h1>
+            <h2 class="bill-subtitle">Enter Email Address</h2>
+        </header>
+        <lightning-input
+            type="email"
+            label="Email Address"
+            value={emailAddress}
+            onchange={handleEmailChange}
+            required>
+        </lightning-input>
+        <footer class="slds-grid slds-grid_align-end slds-has-button-gap slds-var-m-top_large">
+            <lightning-button label="Back" onclick={handleBack}></lightning-button>
+            <lightning-button label="Send Receipt" variant="brand" disabled={isSendEmailDisabled} onclick={handleSendEmail}></lightning-button>
+        </footer>
+    </template>
+
+</template>

@@ -1,0 +1,73 @@
+<template>
+    <div class="landscape-layout bill-layout">
+
+        <!-- Left column: fee items + totals -->
+        <div class="landscape-left bill-details">
+            <header>
+                <h1 class="bill-title">{receiptHeading}</h1>
+                <div class="receipt-meta-line">
+                    <h2 class="bill-subtitle">{receiptSubHeading}</h2>
+                    <span class="bill-record-name">{billData.recordName}</span>
+                </div>
+            </header>
+            <hr />
+            <section>
+                <template for:each={billData.items} for:item="item">
+                    <article key={item.name} class="bill-item">
+                        <div class="item-details">{item.name}</div>
+                        <div class="amount">{item.formattedAmount}</div>
+                    </article>
+                </template>
+            </section>
+            <hr />
+            <section>
+                <article class="summary-row">
+                    <span class="row-label">Subtotal:</span>
+                    <span class="amount">{billData.formattedSubtotal}</span>
+                </article>
+                <article class="summary-row">
+                    <span class="row-label">{processingFeeLabel}:</span>
+                    <span class="amount">{billData.formattedProcessingFee}</span>
+                </article>
+                <template lwc:if={processingFeeLanguage}>
+                    <div class="slds-var-m-bottom_small slds-var-m-top_xx-small">
+                        <p class="item-description">{processingFeeLanguage}</p>
+                    </div>
+                </template>
+            </section>
+            <article class="bill-total total-success">
+                <div class="total-row">
+                    <span class="total-label">Total Due:</span>
+                    <span class="total-amount">{billData.formattedTotal}</span>
+                </div>
+            </article>
+        </div>
+
+        <!-- Right column: payment method selection + action -->
+        <div class="landscape-right bill-right">
+            <section>
+                <h3 class="payment-title">Choose Payment Method</h3>
+                <div class="payment-options payment-options-landscape">
+                    <div class={cardOptionClass} data-method="card" onclick={handleMethodSelect}>
+                        <div class="payment-icon">💳</div>
+                        <div class="payment-label">Card</div>
+                    </div>
+                    <div class={cashOptionClass} data-method="cash" onclick={handleMethodSelect}>
+                        <div class="payment-icon">💵</div>
+                        <div class="payment-label">Cash</div>
+                    </div>
+                </div>
+            </section>
+            <footer class="landscape-footer">
+                <lightning-button
+                    label="Process Payment"
+                    variant="brand"
+                    disabled={isProcessButtonDisabled}
+                    onclick={handleProcessClick}
+                    class="process-button-slds">
+                </lightning-button>
+            </footer>
+        </div>
+
+    </div>
+</template>

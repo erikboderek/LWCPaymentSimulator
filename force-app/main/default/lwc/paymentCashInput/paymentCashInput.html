@@ -1,0 +1,39 @@
+<template>
+    <header class="slds-text-align_center">
+        <h1 class="bill-title">Cash Tendered</h1>
+        <h2 class="bill-subtitle">Payment Required</h2>
+    </header>
+
+    <div class="summary-row slds-var-m-top_medium slds-var-m-bottom_small">
+        <span>Total Due:</span>
+        <span class="amount">{formattedTotal}</span>
+    </div>
+
+    <lightning-input
+        type="number"
+        label="Cash Received"
+        value={cashPaidAmount}
+        min="0"
+        step="0.01"
+        formatter="currency"
+        onchange={handleCashChange}
+        class="slds-var-m-bottom_medium">
+    </lightning-input>
+
+    <article class="bill-total total-success">
+        <div class="total-row">
+            <span class="total-label">Change Due:</span>
+            <span class="total-amount">{formattedChangeDue}</span>
+        </div>
+    </article>
+
+    <footer class="slds-grid slds-grid_align-end slds-has-button-gap slds-var-m-top_medium">
+        <lightning-button label="Back" onclick={handleBack}></lightning-button>
+        <lightning-button
+            label="Complete"
+            variant="brand"
+            disabled={isCashProcessDisabled}
+            onclick={handleComplete}>
+        </lightning-button>
+    </footer>
+</template>

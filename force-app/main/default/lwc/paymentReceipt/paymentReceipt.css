@@ -1,0 +1,109 @@
+@import 'c/billStyles';
+
+/* Receipt-specific right column width — narrower than the default 28% */
+.landscape-right-receipt {
+    width: 200px;
+    flex: 0 0 200px;
+    justify-content: flex-start;
+}
+
+/* Keypad column matches billStyles landscape-right sizing */
+.keypad-column {
+    width: min(220px, 28%);
+    flex: 0 0 min(220px, 28%);
+}
+
+/* "Transaction Receipt  FEE-000000023" on one line */
+.receipt-meta-line {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+}
+
+/* Make the record name match the subtitle's uppercase/spaced style */
+.receipt-meta-line .bill-record-name {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: var(--bill-font-sm);
+    font-weight: 500;
+    margin-top: 0;
+}
+
+/* Tighter row spacing to prevent vertical scroll */
+.receipt-details .summary-row {
+    margin-bottom: 6px;
+}
+
+.receipt-details hr {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.receipt-details .bill-item {
+    margin-bottom: 6px;
+}
+
+/* Make plain label spans the same size as the .amount column */
+.row-label {
+    font-size: var(--bill-font-base);
+    font-weight: 500;
+    color: var(--bill-dark);
+}
+
+/* receipt-total-row bold overrides row-label weight */
+.receipt-total-row .row-label {
+    font-weight: 700;
+}
+
+/* Done button: center under the delivery tiles */
+.done-footer {
+    display: flex;
+    justify-content: center;
+    padding-top: 0.75rem;
+}
+
+.done-footer lightning-button {
+    width: auto;
+    display: inline-block;
+}
+
+/* Phone number display */
+.phone-display {
+    flex-grow: 1;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 0.75rem;
+    background: white;
+    border: 1px solid var(--bill-border);
+    border-radius: 4px;
+    font-family: var(--bill-font);
+    font-size: var(--bill-font-base);
+    font-weight: 400;
+    position: relative;
+    letter-spacing: 1px;
+}
+
+.phone-display::before {
+    content: '(###) ###-####';
+    color: #aaa;
+    position: absolute;
+    font-size: var(--bill-font-base);
+    font-weight: 400;
+    left: 0.75rem;
+    transition: opacity 0.2s ease;
+}
+
+.phone-display[data-is-empty="false"]::before {
+    opacity: 0;
+}
+
+.phone-input-text {
+    color: var(--bill-dark);
+    position: relative;
+    z-index: 10;
+    white-space: nowrap;
+    font-size: var(--bill-font-base);
+    letter-spacing: 0.5px;
+}

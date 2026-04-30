@@ -1,0 +1,86 @@
+<template>
+
+    <!-- Loading -->
+    <template lwc:if={isLoading}>
+        <div class="processing-container">
+            <lightning-spinner alternative-text="Loading transaction details" size="medium"></lightning-spinner>
+            <p class="processing-subtitle slds-var-m-top_large">Loading Transaction Details…</p>
+        </div>
+    </template>
+
+    <!-- Bill / payment selection -->
+    <template lwc:elseif={isBill}>
+        <c-payment-bill
+            bill-data={billData}
+            receipt-heading={receiptHeading}
+            receipt-sub-heading={receiptSubHeading}
+            processing-fee-label={processingFeeLabel}
+            processing-fee-language={processingFeeLanguage}
+            selected-payment-method={selectedPaymentMethod}
+            is-process-button-disabled={isProcessButtonDisabled}
+            onmethodselected={handleMethodSelected}
+            onprocessclicked={handleProcessClicked}>
+        </c-payment-bill>
+    </template>
+
+    <!-- Cash tendered -->
+    <template lwc:elseif={isCash}>
+        <c-payment-cash-input
+            formatted-total={formattedTotal}
+            cash-paid-amount={cashPaidAmount}
+            formatted-change-due={formattedChangeDue}
+            is-cash-process-disabled={isCashProcessDisabled}
+            oncashinput={handleCashInput}
+            oncomplete={handleCashComplete}
+            onback={handleCashBack}>
+        </c-payment-cash-input>
+    </template>
+
+    <!-- Processing animation -->
+    <template lwc:elseif={isProcessing}>
+        <div class="processing-container">
+            <lightning-spinner alternative-text="Processing payment" size="medium"></lightning-spinner>
+            <h2 class="processing-title slds-var-m-top_large">Processing Payment…</h2>
+            <p class="processing-subtitle">Please wait while your transaction is completed.</p>
+            <p class="processing-title slds-var-m-top_small">{formattedTotal}</p>
+        </div>
+    </template>
+
+    <!-- Receipt + delivery -->
+    <template lwc:elseif={isReceipt}>
+        <c-payment-receipt
+            bill-data={billData}
+            processing-fee-label={processingFeeLabel}
+            receipt-number={receiptNumber}
+            transaction-date={transactionDate}
+            capitalized-payment-method={capitalizedPaymentMethod}
+            salted-card-number={saltedCardNumber}
+            is-cash-payment={isCashPayment}
+            formatted-total={formattedTotal}
+            formatted-cash-tendered={formattedCashTendered}
+            formatted-change-due={formattedChangeDue}
+            receive-texts={receiveTexts}
+            keypad-buttons={keypadButtons}
+            ondeliveryselected={handleDeliverySelected}
+            onprint={handlePrint}
+            onsendtext={handleSendText}
+            onsendemail={handleSendEmail}>
+        </c-payment-receipt>
+    </template>
+
+    <!-- Thank you -->
+    <template lwc:elseif={isThankYou}>
+        <div class="thank-you-container">
+            <lightning-icon icon-name="utility:check" size="large" variant="success" class="slds-var-m-bottom_medium"></lightning-icon>
+            <h1 class="bill-title">Thank You!</h1>
+            <h2 class="bill-subtitle">Your transaction is complete.</h2>
+            <p class="slds-var-m-top_medium">Have a wonderful day!</p>
+        </div>
+    </template>
+
+    <!-- Error -->
+    <template lwc:if={error}>
+        <div class="error-message">{error.body.message}</div>
+    </template>
+
+</template>

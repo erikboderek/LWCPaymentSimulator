@@ -1,0 +1,332 @@
+/* ═══════════════════════════════════════════════════════════════
+   billStyles — shared design tokens and base styles
+   Imported by all paymentTerminal child components
+   ═══════════════════════════════════════════════════════════════ */
+
+:host {
+    /* ── Brand palette ── */
+    --bill-primary:   #2c3e50;
+    --bill-secondary: #34495e;
+    --bill-accent:    #3498db;
+    --bill-success:   #27ae60;
+    --bill-warning:   #f39c12;
+    --bill-light:     #ecf0f1;
+    --bill-dark:      #2c3e50;
+    --bill-shadow:    0 8px 32px rgba(0, 0, 0, 0.1);
+    --bill-radius:    16px;
+    --bill-font:      'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    /* ── 7-step font-size scale ──
+       Use these tokens everywhere instead of raw rem values.
+       xs    → fine print, placeholders
+       sm    → subtitles, labels, descriptions
+       base  → body text, standard labels
+       md    → section headings, payment title
+       lg    → screen titles (bill-title)
+       xl    → totals, large display amounts
+       xxl   → keypad buttons, large number display
+    ── */
+    --bill-font-xs:   0.75rem;
+    --bill-font-sm:   0.875rem;
+    --bill-font-base: 1rem;
+    --bill-font-md:   1.125rem;
+    --bill-font-lg:   1.375rem;
+    --bill-font-xl:   1.75rem;
+    --bill-font-xxl:  2.25rem;
+
+    /* ── SLDS 2 surface tokens (fallback to custom palette for SLDS 1) ── */
+    --bill-surface:       var(--slds-g-color-surface-container-1, #ffffff);
+    --bill-on-surface:    var(--slds-g-color-on-surface, #181818);
+    --bill-border:        var(--slds-g-color-border-1, #e9ecef);
+    --bill-muted:         var(--slds-g-color-neutral-base-60, #7f8c8d);
+}
+
+/* ── Landscape two-column layout ── */
+.landscape-layout {
+    display: flex;
+    flex-direction: row;
+    gap: 1.25rem;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.landscape-left {
+    flex: 1 1 55%;
+    min-width: 0;
+}
+
+.landscape-right {
+    flex: 0 0 min(220px, 28%);
+    width: min(220px, 28%);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding-top: 0.25rem;
+}
+
+.landscape-footer {
+    margin-top: auto;
+    padding-top: 1rem;
+    width: 100%;
+}
+
+.landscape-footer lightning-button {
+    width: 100%;
+    display: block;
+}
+
+.payment-options-landscape {
+    flex-direction: column;
+    gap: 12px;
+}
+
+.payment-options-landscape .payment-option {
+    width: 100%;
+}
+
+/* ── Typography ── */
+.bill-title {
+    font-size: var(--bill-font-lg);
+    font-weight: 700;
+    color: var(--bill-dark);
+    margin: 0 0 0.5rem 0;
+    letter-spacing: -0.5px;
+}
+
+.bill-subtitle {
+    font-size: var(--bill-font-sm);
+    color: var(--bill-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+}
+
+.bill-record-name {
+    font-size: var(--bill-font-sm);
+    color: var(--bill-muted);
+    margin-top: 0.25rem;
+}
+
+.item-name {
+    font-weight: 500;
+    color: var(--bill-dark);
+    font-size: var(--bill-font-base);
+}
+
+.item-description {
+    font-size: var(--bill-font-xs);
+    color: var(--bill-muted);
+    margin-top: 2px;
+}
+
+.item-amount {
+    font-weight: 600;
+    color: var(--bill-primary);
+    font-size: var(--bill-font-base);
+}
+
+/* ── Row layouts ── */
+.bill-item,
+.summary-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.item-details {
+    flex-grow: 1;
+    font-size: var(--bill-font-base);
+    font-weight: 500;
+    color: var(--bill-dark);
+}
+
+.amount {
+    text-align: right;
+    min-width: 80px;
+    font-variant-numeric: tabular-nums;
+    padding-left: 16px;
+    font-weight: 500;
+    font-size: var(--bill-font-base);
+}
+
+/* ── Total bar ── */
+.bill-total {
+    background: linear-gradient(135deg, var(--bill-primary), var(--bill-secondary));
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    margin-top: 1.5rem;
+    color: white;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.total-row:last-child {
+    margin-bottom: 0;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.total-label {
+    font-size: var(--bill-font-base);
+    font-weight: 600;
+}
+
+.total-amount {
+    font-size: var(--bill-font-base);
+    font-weight: 700;
+}
+
+.total-row .amount {
+    font-size: var(--bill-font-md);
+    font-weight: bold;
+    color: #fff;
+}
+
+/* Remove the dark-box top border when it's a single-row total (Total Due, Change Due) */
+.total-success .total-row {
+    border-top: none;
+    padding-top: 0;
+}
+
+/* Receipt "Transaction Total" plain row — bold with top separator, no dark box */
+.receipt-total-row {
+    font-weight: 700;
+    border-top: 2px solid var(--bill-border);
+    padding-top: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+/* ── Payment method / receipt delivery tiles ── */
+.bill-payment-method {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 1rem;
+    margin-top: auto;
+    width: 100%;
+}
+
+.payment-title {
+    font-size: var(--bill-font-md);
+    font-weight: 600;
+    color: var(--bill-dark);
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.payment-options {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.payment-option {
+    background: white;
+    border: 2px solid var(--bill-border);
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    width: 200px;
+}
+
+.payment-option:hover {
+    border-color: var(--bill-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+}
+
+@media (max-width: 600px) {
+    .payment-option { width: 120px; }
+    .bill-payment-method { padding-bottom: 12px; }
+}
+
+.payment-option.selected {
+    border-color: var(--bill-accent);
+    background: linear-gradient(135deg, #ffffff, rgba(52, 152, 219, 0.05));
+}
+
+.payment-option.selected::before {
+    content: '✓';
+    position: absolute;
+    top: 8px; right: 8px;
+    background: var(--bill-accent);
+    color: white;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    font-size: var(--bill-font-xs);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.payment-icon {
+    font-size: var(--bill-font-xl);
+    margin-bottom: 0.5rem;
+    color: var(--bill-accent);
+}
+
+.payment-label {
+    font-weight: 500;
+    color: var(--bill-dark);
+    font-size: var(--bill-font-sm);
+}
+
+/* ── SLDS button full-width helper ── */
+.process-button-slds {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+/* ── Gap utility (footer grids) ── */
+.slds-has-button-gap {
+    gap: 16px;
+}
+
+/* ── Dividers ── */
+hr {
+    margin-top: 12px;
+    margin-bottom: 12px;
+    border: none;
+    border-top: 1px solid var(--bill-border);
+}
+
+/* ── Feedback ── */
+.error-message {
+    background: #e74c3c;
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    text-align: center;
+    font-size: var(--bill-font-sm);
+}
+
+/* ── Animations ── */
+@keyframes spin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes ripple {
+    0%   { transform: scale(0); opacity: 1; }
+    100% { transform: scale(1); opacity: 0; }
+}
+
+/* ── Print ── */
+@media print {
+    @page { margin: 0.5cm; }
+}
