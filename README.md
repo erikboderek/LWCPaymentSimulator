@@ -1,12 +1,11 @@
 # LWCPaymentSimulator
 
-This was the second LWC I ever vibe coded, and I've been busy reworking it to be more scalable and adhere to Salesforce design standards. 
-
-Basically it mocks up paying for something using a point of sale (POS) integration with either cash or credit card, and how we can capture information from the end user and use that elsewhere in the system. 
+This was the second LWC I ever vibe coded. It mocks up paying for something using a point of sale (POS) integration with either cash or credit card, and how we can capture information from the end user and use that elsewhere in the system. 
 
 I'm using it as a screen flow, but it can be used elsewhere. 
 
-Originally this LWC had vertical layout like POS solutions you see at restaurants, and it had some cool animations. I'd like to bring those back in a future release. 
+Originally this LWC had vertical layout like POS solutions you see at restaurants, and it had some cool animations. But it looked a little too bold for Salesforce orgs. I've been busy reworking it to be more scalable and adhere to Salesforce design standards. I'd like to bring those back in a future release if time permits.
+
 
 **Credit Card Payment**
 <img width="800" alt="pos1" src="https://github.com/user-attachments/assets/ccefb0a1-543e-43a3-92d2-e9050d9241ce" />
